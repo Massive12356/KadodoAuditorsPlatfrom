@@ -7,5 +7,12 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-  base: './', // Add this to handle relative paths correctly
+  base: '/', // Changed from './' to '/' for proper deployment
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined, // Ensure proper chunking
+      },
+    },
+  },
 });
