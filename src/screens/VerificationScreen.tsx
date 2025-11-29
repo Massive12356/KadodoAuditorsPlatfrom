@@ -1,42 +1,48 @@
-import { useState } from 'react';
-import { Layers, Settings, HelpCircle, Home } from 'lucide-react';
-import { useStore } from '../store/useStore';
-import { Link } from 'react-router-dom';
-import VerificationResultsScreen from './VerificationResultsScreen';
-import { toast } from 'react-hot-toast';
-import SimplifiedHeader from '../components/SimplifiedHeader'; // Changed to use SimplifiedHeader
+import { useState } from "react";
+import { Layers, Settings, HelpCircle, Home } from "lucide-react";
+import { useStore } from "../store/useStore";
+import { Link } from "react-router-dom";
+import VerificationResultsScreen from "./VerificationResultsScreen";
+import { toast } from "react-hot-toast";
+import SimplifiedHeader from "../components/SimplifiedHeader"; // Changed to use SimplifiedHeader
 
 export default function VerificationScreen() {
-  const [licenseNumber, setLicenseNumber] = useState('');
+  const [licenseNumber, setLicenseNumber] = useState("");
   // Added consentCode state
-  const [consentCode, setConsentCode] = useState('');
+  const [consentCode, setConsentCode] = useState("");
   const verifyAuditor = useStore((state) => state.verifyAuditor);
-  const showVerificationModal = useStore((state) => state.showVerificationModal);
-  const setShowVerificationModal = useStore((state) => state.setShowVerificationModal);
+  const showVerificationModal = useStore(
+    (state) => state.showVerificationModal
+  );
+  const setShowVerificationModal = useStore(
+    (state) => state.setShowVerificationModal
+  );
 
   const handleVerify = () => {
     // Updated validation to require consent code
     if (licenseNumber.trim() && consentCode.trim()) {
       // Show a toast notification when verification starts
-      toast.loading('Verifying auditor...', { id: 'verification' });
+      toast.loading("Verifying auditor...", { id: "verification" });
       // Simulate API call delay
       setTimeout(() => {
         // Updated function call to include consentCode
         verifyAuditor(licenseNumber, consentCode);
-        toast.dismiss('verification');
+        toast.dismiss("verification");
       }, 1000);
     } else {
-      toast.error('Please enter both license number and consent code');
+      toast.error("Please enter both license number and consent code");
     }
   };
 
   const closeModal = () => {
     setShowVerificationModal(false);
+    setConsentCode("");
+    setLicenseNumber("");
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <SimplifiedHeader /> // Using the simplified header
+      <SimplifiedHeader />
 
       <main className="max-w-4xl mx-auto px-6 py-16">
         <div className="text-center mb-12">
@@ -121,8 +127,7 @@ export default function VerificationScreen() {
               </svg>
             </button>
 
-              <VerificationResultsScreen onClose={closeModal} />
-            
+            <VerificationResultsScreen onClose={closeModal} />
           </div>
         </div>
       )}
