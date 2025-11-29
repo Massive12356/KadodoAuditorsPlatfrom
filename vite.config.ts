@@ -7,12 +7,20 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-  base: '/', // Changed from './' to '/' for proper deployment
+  base: '', // Empty string for Vercel deployment
   build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
     rollupOptions: {
       output: {
-        manualChunks: undefined, // Ensure proper chunking
+        entryFileNames: 'assets/[name].[hash].js',
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: 'assets/[name].[hash].[ext]',
       },
     },
+  },
+  server: {
+    host: true,
+    port: 5173,
   },
 });
